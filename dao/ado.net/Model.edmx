@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MasterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="commande">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="nvarchar" MaxLength="250" />
+          <Property Name="montant" Type="int" Nullable="false" />
+          <Property Name="client_id" Type="int" />
+          <Property Name="delivered" Type="nvarchar" MaxLength="50" />
+          <Property Name="etat" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="commande_produit">
+          <Key>
+            <PropertyRef Name="commande_id" />
+            <PropertyRef Name="produit_id" />
+          </Key>
+          <Property Name="commande_id" Type="int" Nullable="false" />
+          <Property Name="produit_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="livraison">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="nvarchar" MaxLength="250" />
+          <Property Name="adresse" Type="nvarchar" MaxLength="250" />
+          <Property Name="livreur_id" Type="int" />
+          <Property Name="commande_id" Type="int" />
+        </EntityType>
+        <EntityType Name="paiement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type_transaction" Type="nvarchar" MaxLength="250" />
+          <Property Name="commande_id" Type="int" />
+        </EntityType>
+        <EntityType Name="produit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="libelle" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="qte_stock" Type="int" />
+          <Property Name="prix_uni" Type="int" />
+          <Property Name="qte_seuil" Type="int" />
+          <Property Name="image" Type="image" />
+          <Property Name="description" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="libelle" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users_gc">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom_complet" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="role_user" Type="int" />
+          <Property Name="login_user" Type="nvarchar" MaxLength="250" />
+          <Property Name="pwd_user" Type="nvarchar" MaxLength="250" />
+          <Property Name="phone" Type="nvarchar" MaxLength="250" />
+          <Property Name="adresse" Type="nvarchar" MaxLength="250" />
+          <Property Name="solde_compte" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <Association Name="FK__commande___comma__71F1E3A2">
+          <End Role="commande" Type="Self.commande" Multiplicity="1" />
+          <End Role="commande_produit" Type="Self.commande_produit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="commande">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="commande_produit">
+              <PropertyRef Name="commande_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__commande___produ__72E607DB">
+          <End Role="produit" Type="Self.produit" Multiplicity="1" />
+          <End Role="commande_produit" Type="Self.commande_produit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="produit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="commande_produit">
+              <PropertyRef Name="produit_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__commande__client__51851410">
+          <End Role="users_gc" Type="Self.users_gc" Multiplicity="0..1" />
+          <End Role="commande" Type="Self.commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users_gc">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="commande">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__livraison__comma__031C6FA4">
+          <End Role="commande" Type="Self.commande" Multiplicity="0..1" />
+          <End Role="livraison" Type="Self.livraison" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="commande">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="livraison">
+              <PropertyRef Name="commande_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__livraison__livre__4F9CCB9E">
+          <End Role="users_gc" Type="Self.users_gc" Multiplicity="0..1" />
+          <End Role="livraison" Type="Self.livraison" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users_gc">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="livraison">
+              <PropertyRef Name="livreur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__paiement__comman__5090EFD7">
+          <End Role="commande" Type="Self.commande" Multiplicity="0..1" />
+          <End Role="paiement" Type="Self.paiement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="commande">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="paiement">
+              <PropertyRef Name="commande_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users_gc__role_u__546180BB">
+          <End Role="role" Type="Self.role" Multiplicity="0..1" />
+          <End Role="users_gc" Type="Self.users_gc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="users_gc">
+              <PropertyRef Name="role_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MasterModelStoreContainer">
+          <EntitySet Name="commande" EntityType="Self.commande" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="commande_produit" EntityType="Self.commande_produit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="livraison" EntityType="Self.livraison" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="paiement" EntityType="Self.paiement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="produit" EntityType="Self.produit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="role" EntityType="Self.role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users_gc" EntityType="Self.users_gc" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__commande___comma__71F1E3A2" Association="Self.FK__commande___comma__71F1E3A2">
+            <End Role="commande" EntitySet="commande" />
+            <End Role="commande_produit" EntitySet="commande_produit" />
+          </AssociationSet>
+          <AssociationSet Name="FK__commande___produ__72E607DB" Association="Self.FK__commande___produ__72E607DB">
+            <End Role="produit" EntitySet="produit" />
+            <End Role="commande_produit" EntitySet="commande_produit" />
+          </AssociationSet>
+          <AssociationSet Name="FK__commande__client__51851410" Association="Self.FK__commande__client__51851410">
+            <End Role="users_gc" EntitySet="users_gc" />
+            <End Role="commande" EntitySet="commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK__livraison__comma__031C6FA4" Association="Self.FK__livraison__comma__031C6FA4">
+            <End Role="commande" EntitySet="commande" />
+            <End Role="livraison" EntitySet="livraison" />
+          </AssociationSet>
+          <AssociationSet Name="FK__livraison__livre__4F9CCB9E" Association="Self.FK__livraison__livre__4F9CCB9E">
+            <End Role="users_gc" EntitySet="users_gc" />
+            <End Role="livraison" EntitySet="livraison" />
+          </AssociationSet>
+          <AssociationSet Name="FK__paiement__comman__5090EFD7" Association="Self.FK__paiement__comman__5090EFD7">
+            <End Role="commande" EntitySet="commande" />
+            <End Role="paiement" EntitySet="paiement" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users_gc__role_u__546180BB" Association="Self.FK__users_gc__role_u__546180BB">
+            <End Role="role" EntitySet="role" />
+            <End Role="users_gc" EntitySet="users_gc" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MasterModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="commande">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="montant" Type="Int32" Nullable="false" />
+          <Property Name="client_id" Type="Int32" />
+          <NavigationProperty Name="users_gc" Relationship="Self.FK__commande__client__51851410" FromRole="commande" ToRole="users_gc" />
+          <NavigationProperty Name="paiements" Relationship="Self.FK__paiement__comman__5090EFD7" FromRole="commande" ToRole="paiement" />
+          <NavigationProperty Name="produits" Relationship="Self.commande_produit" FromRole="commande" ToRole="produit" />
+          <Property Name="delivered" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="etat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="livraisons" Relationship="MasterModel.FK__livraison__comma__031C6FA4" FromRole="commande" ToRole="livraison" />
+        </EntityType>
+        <EntityType Name="livraison">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="adresse" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="livreur_id" Type="Int32" />
+          <NavigationProperty Name="users_gc" Relationship="Self.FK__livraison__livre__4F9CCB9E" FromRole="livraison" ToRole="users_gc" />
+          <Property Name="commande_id" Type="Int32" />
+          <NavigationProperty Name="commande" Relationship="MasterModel.FK__livraison__comma__031C6FA4" FromRole="livraison" ToRole="commande" />
+        </EntityType>
+        <EntityType Name="paiement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type_transaction" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="commande_id" Type="Int32" />
+          <NavigationProperty Name="commande" Relationship="Self.FK__paiement__comman__5090EFD7" FromRole="paiement" ToRole="commande" />
+        </EntityType>
+        <EntityType Name="produit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="libelle" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="qte_stock" Type="Int32" />
+          <Property Name="prix_uni" Type="Int32" />
+          <Property Name="qte_seuil" Type="Int32" />
+          <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="commandes" Relationship="Self.commande_produit" FromRole="produit" ToRole="commande" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="libelle" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="users_gc" Relationship="Self.FK__users_gc__role_u__546180BB" FromRole="role" ToRole="users_gc" />
+        </EntityType>
+        <EntityType Name="users_gc">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom_complet" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="role_user" Type="Int32" />
+          <Property Name="login_user" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="pwd_user" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="adresse" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="solde_compte" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="commandes" Relationship="Self.FK__commande__client__51851410" FromRole="users_gc" ToRole="commande" />
+          <NavigationProperty Name="livraisons" Relationship="Self.FK__livraison__livre__4F9CCB9E" FromRole="users_gc" ToRole="livraison" />
+          <NavigationProperty Name="role" Relationship="Self.FK__users_gc__role_u__546180BB" FromRole="users_gc" ToRole="role" />
+        </EntityType>
+        <Association Name="FK__commande__client__51851410">
+          <End Role="users_gc" Type="Self.users_gc" Multiplicity="0..1" />
+          <End Role="commande" Type="Self.commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users_gc">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="commande">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__paiement__comman__5090EFD7">
+          <End Role="commande" Type="Self.commande" Multiplicity="0..1" />
+          <End Role="paiement" Type="Self.paiement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="commande">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="paiement">
+              <PropertyRef Name="commande_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__livraison__livre__4F9CCB9E">
+          <End Role="users_gc" Type="Self.users_gc" Multiplicity="0..1" />
+          <End Role="livraison" Type="Self.livraison" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users_gc">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="livraison">
+              <PropertyRef Name="livreur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__users_gc__role_u__546180BB">
+          <End Role="role" Type="Self.role" Multiplicity="0..1" />
+          <End Role="users_gc" Type="Self.users_gc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="users_gc">
+              <PropertyRef Name="role_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="commande_produit">
+          <End Role="commande" Type="Self.commande" Multiplicity="*" />
+          <End Role="produit" Type="Self.produit" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="MasterEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="commandes" EntityType="Self.commande" />
+          <EntitySet Name="livraisons" EntityType="Self.livraison" />
+          <EntitySet Name="paiements" EntityType="Self.paiement" />
+          <EntitySet Name="produits" EntityType="Self.produit" />
+          <EntitySet Name="roles" EntityType="Self.role" />
+          <EntitySet Name="users_gc" EntityType="Self.users_gc" />
+          <AssociationSet Name="FK__commande__client__51851410" Association="Self.FK__commande__client__51851410">
+            <End Role="users_gc" EntitySet="users_gc" />
+            <End Role="commande" EntitySet="commandes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__paiement__comman__5090EFD7" Association="Self.FK__paiement__comman__5090EFD7">
+            <End Role="commande" EntitySet="commandes" />
+            <End Role="paiement" EntitySet="paiements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__livraison__livre__4F9CCB9E" Association="Self.FK__livraison__livre__4F9CCB9E">
+            <End Role="users_gc" EntitySet="users_gc" />
+            <End Role="livraison" EntitySet="livraisons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__users_gc__role_u__546180BB" Association="Self.FK__users_gc__role_u__546180BB">
+            <End Role="role" EntitySet="roles" />
+            <End Role="users_gc" EntitySet="users_gc" />
+          </AssociationSet>
+          <AssociationSet Name="commande_produit" Association="Self.commande_produit">
+            <End Role="commande" EntitySet="commandes" />
+            <End Role="produit" EntitySet="produits" />
+          </AssociationSet>
+          <AssociationSet Name="FK__livraison__comma__031C6FA4" Association="MasterModel.FK__livraison__comma__031C6FA4">
+            <End Role="commande" EntitySet="commandes" />
+            <End Role="livraison" EntitySet="livraisons" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK__livraison__comma__031C6FA4">
+          <End Type="MasterModel.commande" Role="commande" Multiplicity="0..1" />
+          <End Type="MasterModel.livraison" Role="livraison" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="commande">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="livraison">
+              <PropertyRef Name="commande_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MasterModelStoreContainer" CdmEntityContainer="MasterEntities">
+          <EntitySetMapping Name="commandes">
+            <EntityTypeMapping TypeName="MasterModel.commande">
+              <MappingFragment StoreEntitySet="commande">
+                <ScalarProperty Name="etat" ColumnName="etat" />
+                <ScalarProperty Name="delivered" ColumnName="delivered" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="montant" ColumnName="montant" />
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="livraisons">
+            <EntityTypeMapping TypeName="MasterModel.livraison">
+              <MappingFragment StoreEntitySet="livraison">
+                <ScalarProperty Name="commande_id" ColumnName="commande_id" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="adresse" ColumnName="adresse" />
+                <ScalarProperty Name="livreur_id" ColumnName="livreur_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paiements">
+            <EntityTypeMapping TypeName="MasterModel.paiement">
+              <MappingFragment StoreEntitySet="paiement">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="type_transaction" ColumnName="type_transaction" />
+                <ScalarProperty Name="commande_id" ColumnName="commande_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="produits">
+            <EntityTypeMapping TypeName="MasterModel.produit">
+              <MappingFragment StoreEntitySet="produit">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="libelle" ColumnName="libelle" />
+                <ScalarProperty Name="qte_stock" ColumnName="qte_stock" />
+                <ScalarProperty Name="prix_uni" ColumnName="prix_uni" />
+                <ScalarProperty Name="qte_seuil" ColumnName="qte_seuil" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="MasterModel.role">
+              <MappingFragment StoreEntitySet="role">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="libelle" ColumnName="libelle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users_gc">
+            <EntityTypeMapping TypeName="MasterModel.users_gc">
+              <MappingFragment StoreEntitySet="users_gc">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="nom_complet" ColumnName="nom_complet" />
+                <ScalarProperty Name="role_user" ColumnName="role_user" />
+                <ScalarProperty Name="login_user" ColumnName="login_user" />
+                <ScalarProperty Name="pwd_user" ColumnName="pwd_user" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="adresse" ColumnName="adresse" />
+                <ScalarProperty Name="solde_compte" ColumnName="solde_compte" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="commande_produit" TypeName="MasterModel.commande_produit" StoreEntitySet="commande_produit">
+            <EndProperty Name="commande">
+              <ScalarProperty Name="ID" ColumnName="commande_id" />
+            </EndProperty>
+            <EndProperty Name="produit">
+              <ScalarProperty Name="ID" ColumnName="produit_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

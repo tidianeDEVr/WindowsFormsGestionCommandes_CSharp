@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ec4029cee8b3465cab57146959499224" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="MasterModel.commande" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterModel.livraison" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterModel.paiement" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterModel.produit" Width="1.5" PointX="7.5" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterModel.role" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterModel.users_gc" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <AssociationConnector Association="MasterModel.FK__commande__client__51851410" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterModel.FK__paiement__comman__5090EFD7" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterModel.FK__livraison__livre__4F9CCB9E" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterModel.FK__users_gc__role_u__546180BB" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterModel.commande_produit" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterModel.FK__livraison__comma__031C6FA4" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

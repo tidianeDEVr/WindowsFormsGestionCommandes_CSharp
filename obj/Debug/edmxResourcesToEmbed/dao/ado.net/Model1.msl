@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="masterModelStoreContainer" CdmEntityContainer="masterEntities4">
+    <EntitySetMapping Name="commandes">
+      <EntityTypeMapping TypeName="masterModel.commande">
+        <MappingFragment StoreEntitySet="commande">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="montant" ColumnName="montant" />
+          <ScalarProperty Name="client_id" ColumnName="client_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="commande_produit">
+      <EntityTypeMapping TypeName="masterModel.commande_produit">
+        <MappingFragment StoreEntitySet="commande_produit">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="commande_id" ColumnName="commande_id" />
+          <ScalarProperty Name="produit_id" ColumnName="produit_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="livraisons">
+      <EntityTypeMapping TypeName="masterModel.livraison">
+        <MappingFragment StoreEntitySet="livraison">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="adresse" ColumnName="adresse" />
+          <ScalarProperty Name="livreur_id" ColumnName="livreur_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="paiements">
+      <EntityTypeMapping TypeName="masterModel.paiement">
+        <MappingFragment StoreEntitySet="paiement">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="type_transaction" ColumnName="type_transaction" />
+          <ScalarProperty Name="commande_id" ColumnName="commande_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="produits">
+      <EntityTypeMapping TypeName="masterModel.produit">
+        <MappingFragment StoreEntitySet="produit">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="libelle" ColumnName="libelle" />
+          <ScalarProperty Name="qte_stock" ColumnName="qte_stock" />
+          <ScalarProperty Name="prix_uni" ColumnName="prix_uni" />
+          <ScalarProperty Name="qte_seuil" ColumnName="qte_seuil" />
+          <ScalarProperty Name="image" ColumnName="image" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="roles">
+      <EntityTypeMapping TypeName="masterModel.role">
+        <MappingFragment StoreEntitySet="role">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="libelle" ColumnName="libelle" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users_gc">
+      <EntityTypeMapping TypeName="masterModel.users_gc">
+        <MappingFragment StoreEntitySet="users_gc">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="nom_complet" ColumnName="nom_complet" />
+          <ScalarProperty Name="role_user" ColumnName="role_user" />
+          <ScalarProperty Name="login_user" ColumnName="login_user" />
+          <ScalarProperty Name="pwd_user" ColumnName="pwd_user" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="adresse" ColumnName="adresse" />
+          <ScalarProperty Name="solde_compte" ColumnName="solde_compte" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

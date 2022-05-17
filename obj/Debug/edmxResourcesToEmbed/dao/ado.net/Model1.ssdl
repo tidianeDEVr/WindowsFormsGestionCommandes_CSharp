@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="masterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="commande">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="date" Type="nvarchar" MaxLength="250" />
+    <Property Name="montant" Type="int" Nullable="false" />
+    <Property Name="client_id" Type="int" />
+  </EntityType>
+  <EntityType Name="commande_produit">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="commande_id" Type="int" Nullable="false" />
+    <Property Name="produit_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="livraison">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="date" Type="nvarchar" MaxLength="250" />
+    <Property Name="adresse" Type="nvarchar" MaxLength="250" />
+    <Property Name="livreur_id" Type="int" />
+  </EntityType>
+  <EntityType Name="paiement">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="type_transaction" Type="nvarchar" MaxLength="250" />
+    <Property Name="commande_id" Type="int" />
+  </EntityType>
+  <EntityType Name="produit">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="libelle" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="qte_stock" Type="int" />
+    <Property Name="prix_uni" Type="int" />
+    <Property Name="qte_seuil" Type="int" />
+    <Property Name="image" Type="image" />
+    <Property Name="description" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="role">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="libelle" Type="nvarchar" MaxLength="250" Nullable="false" />
+  </EntityType>
+  <EntityType Name="users_gc">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom_complet" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="role_user" Type="int" />
+    <Property Name="login_user" Type="nvarchar" MaxLength="250" />
+    <Property Name="pwd_user" Type="nvarchar" MaxLength="250" />
+    <Property Name="phone" Type="nvarchar" MaxLength="250" />
+    <Property Name="adresse" Type="nvarchar" MaxLength="250" />
+    <Property Name="solde_compte" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <Association Name="FK__commande___comma__5CF6C6BC">
+    <End Role="commande" Type="Self.commande" Multiplicity="1" />
+    <End Role="commande_produit" Type="Self.commande_produit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="commande">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="commande_produit">
+        <PropertyRef Name="commande_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__commande___produ__5DEAEAF5">
+    <End Role="produit" Type="Self.produit" Multiplicity="1" />
+    <End Role="commande_produit" Type="Self.commande_produit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="produit">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="commande_produit">
+        <PropertyRef Name="produit_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__commande__client__51851410">
+    <End Role="users_gc" Type="Self.users_gc" Multiplicity="0..1" />
+    <End Role="commande" Type="Self.commande" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users_gc">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="commande">
+        <PropertyRef Name="client_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__livraison__livre__4F9CCB9E">
+    <End Role="users_gc" Type="Self.users_gc" Multiplicity="0..1" />
+    <End Role="livraison" Type="Self.livraison" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users_gc">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="livraison">
+        <PropertyRef Name="livreur_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__paiement__comman__5090EFD7">
+    <End Role="commande" Type="Self.commande" Multiplicity="0..1" />
+    <End Role="paiement" Type="Self.paiement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="commande">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="paiement">
+        <PropertyRef Name="commande_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__users_gc__role_u__546180BB">
+    <End Role="role" Type="Self.role" Multiplicity="0..1" />
+    <End Role="users_gc" Type="Self.users_gc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="role">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="users_gc">
+        <PropertyRef Name="role_user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="masterModelStoreContainer">
+    <EntitySet Name="commande" EntityType="Self.commande" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="commande_produit" EntityType="Self.commande_produit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="livraison" EntityType="Self.livraison" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="paiement" EntityType="Self.paiement" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="produit" EntityType="Self.produit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="role" EntityType="Self.role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users_gc" EntityType="Self.users_gc" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__commande___comma__5CF6C6BC" Association="Self.FK__commande___comma__5CF6C6BC">
+      <End Role="commande" EntitySet="commande" />
+      <End Role="commande_produit" EntitySet="commande_produit" />
+    </AssociationSet>
+    <AssociationSet Name="FK__commande___produ__5DEAEAF5" Association="Self.FK__commande___produ__5DEAEAF5">
+      <End Role="produit" EntitySet="produit" />
+      <End Role="commande_produit" EntitySet="commande_produit" />
+    </AssociationSet>
+    <AssociationSet Name="FK__commande__client__51851410" Association="Self.FK__commande__client__51851410">
+      <End Role="users_gc" EntitySet="users_gc" />
+      <End Role="commande" EntitySet="commande" />
+    </AssociationSet>
+    <AssociationSet Name="FK__livraison__livre__4F9CCB9E" Association="Self.FK__livraison__livre__4F9CCB9E">
+      <End Role="users_gc" EntitySet="users_gc" />
+      <End Role="livraison" EntitySet="livraison" />
+    </AssociationSet>
+    <AssociationSet Name="FK__paiement__comman__5090EFD7" Association="Self.FK__paiement__comman__5090EFD7">
+      <End Role="commande" EntitySet="commande" />
+      <End Role="paiement" EntitySet="paiement" />
+    </AssociationSet>
+    <AssociationSet Name="FK__users_gc__role_u__546180BB" Association="Self.FK__users_gc__role_u__546180BB">
+      <End Role="role" EntitySet="role" />
+      <End Role="users_gc" EntitySet="users_gc" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
